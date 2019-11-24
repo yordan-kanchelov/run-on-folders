@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import executeShellCommand from "./utils/executeShellCommand";
 
 import CommandOptions from "./command-options";
@@ -5,19 +7,12 @@ import promptUser from "./console-interface/promp-user";
 import * as yargs from "yargs";
 import listDirectories from "./utils/list-directories";
 
-let commandOptions: CommandOptions; //process.argv.slice(2).join(" ");
-
+let commandOptions: CommandOptions;
 const args = yargs
     .command("command", '"echo replace me with something else"')
     .help().argv;
 
 (async () => {
-    try {
-        process.chdir(__dirname);
-    } catch (err) {
-        console.error(`chdir: ${err}`);
-    }
-
     if (!args.command) {
         commandOptions = await promptUser();
     } else {
