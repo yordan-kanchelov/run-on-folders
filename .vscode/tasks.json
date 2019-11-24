@@ -7,10 +7,15 @@
             "identifier": "build",
             "type": "npm",
             "script": "build",
+        },
+        {
+            "identifier": "debug",
+            "type": "npm",
+            "script": "debug",
             "group": {
                 "kind": "build",
-                "isDefault": false
-            }
+                "isDefault": true
+            },
         }
     ]
 }
