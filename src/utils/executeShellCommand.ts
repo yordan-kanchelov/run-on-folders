@@ -6,7 +6,7 @@ const execPromise = util.promisify(exec);
 export default async function executeShellCommand(
     command: string,
     options?: ExecOptions
-) {
+): Promise<void> {
     try {
         const { stdout, stderr } = await execPromise(command, options);
         console.log("stdout:", stdout);
