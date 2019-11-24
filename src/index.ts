@@ -1,22 +1,37 @@
-import chalk from "chalk";
 import executeShellCommand from "./utils/executeShellCommand";
-import listDirectories from "./utils/listDirectories";
 
-const command = process.argv.slice(2).join(" ");
+import CommandOptions from "./command-options";
+import promptUser from "./console-interface/promp-user";
+import * as yargs from "yargs";
+import listDirectories from "./utils/list-directories";
 
-try {
-    process.chdir(__dirname);
-    console.log(`New directory: ${process.cwd()}`);
-} catch (err) {
-    console.error(`chdir: ${err}`);
-}
+let commandOptions: CommandOptions; //process.argv.slice(2).join(" ");
+
+const args = yargs
+    .command("command", '"echo replace me with something else"')
+    .help().argv;
 
 (async () => {
-    const directories = listDirectories(__dirname);
+    try {
+        process.chdir(__dirname);
+    } catch (err) {
+        console.error(`chdir: ${err}`);
+    }
+
+    if (!args.command) {
+        commandOptions = await promptUser();
+    } else {
+        commandOptions = new CommandOptions(
+            args.command as string,
+            listDirectories(process.cwd())
+        );
+    }
 
     await Promise.all(
-        directories.map(directory => {
-            return executeShellCommand(command, { cwd: directory });
+        commandOptions.selectedDirectories.map(directory => {
+            return executeShellCommand(commandOptions.command, {
+                cwd: directory,
+            });
         })
     );
 })();
