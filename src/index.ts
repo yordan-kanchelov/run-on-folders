@@ -1,53 +1,32 @@
-import * as fs from "fs";
-import * as util from "util";
-import chalk from "chalk";
-import { exec, ExecOptions } from "child_process";
+#!/usr/bin/env node
 
-const command = process.argv.slice(2).join(" ");
-const execPromise = util.promisify(exec);
+import executeShellCommand from "./utils/executeShellCommand";
 
-try {
-    process.chdir(__dirname);
-    console.log(`New directory: ${process.cwd()}`);
-} catch (err) {
-    console.error(`chdir: ${err}`);
-}
+import CommandOptions from "./command-options";
+import promptUser from "./console-interface/promp-user";
+import * as yargs from "yargs";
+import listDirectories from "./utils/list-directories";
+
+let commandOptions: CommandOptions;
+const args = yargs
+    .command("command", '"echo replace me with something else"')
+    .help().argv;
 
 (async () => {
-    async function executeShellCommand(command: string, options?: ExecOptions) {
-        try {
-            const { stdout, stderr } = await execPromise(command, options);
-            console.log("stdout:", stdout);
-            console.log("stderr:", stderr);
-        } catch (e) {
-            console.error(e);
-        }
+    if (!args.command) {
+        commandOptions = await promptUser();
+    } else {
+        commandOptions = new CommandOptions(
+            args.command as string,
+            listDirectories(process.cwd())
+        );
     }
 
-    process.chdir(__dirname);
-    const files = fs.readdirSync(__dirname);
-    const directories = files.filter(path => {
-        return fs.statSync(path).isDirectory();
-    });
-
-    for (
-        let directoryIndex = 0;
-        directoryIndex < directories.length;
-        directoryIndex++
-    ) {
-        const directory = directories[directoryIndex];
-
-        chalk.redBright(`
-            ${"-".repeat(directory.length + 4)}
-            - ${directory} -
-            ${"-".repeat(directory.length + 4)}
-        `);
-
-        await executeShellCommand(command, { cwd: directory });
-
-        chalk.yellow(`
-            ${"-".repeat(32)}
-            
-        `);
-    }
+    await Promise.all(
+        commandOptions.selectedDirectories.map(directory => {
+            return executeShellCommand(commandOptions.command, {
+                cwd: directory,
+            });
+        })
+    );
 })();
