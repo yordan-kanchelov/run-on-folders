@@ -1,10 +1,8 @@
-import * as fs from "fs";
-import * as util from "util";
 import chalk from "chalk";
-import { exec, ExecOptions } from "child_process";
+import * as fs from "fs";
+import executeShellCommand from "./utils/executeShellCommand";
 
 const command = process.argv.slice(2).join(" ");
-const execPromise = util.promisify(exec);
 
 try {
     process.chdir(__dirname);
@@ -14,16 +12,6 @@ try {
 }
 
 (async () => {
-    async function executeShellCommand(command: string, options?: ExecOptions) {
-        try {
-            const { stdout, stderr } = await execPromise(command, options);
-            console.log("stdout:", stdout);
-            console.log("stderr:", stderr);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     process.chdir(__dirname);
     const files = fs.readdirSync(__dirname);
     const directories = files.filter(path => {
@@ -37,17 +25,20 @@ try {
     ) {
         const directory = directories[directoryIndex];
 
-        chalk.redBright(`
-            ${"-".repeat(directory.length + 4)}
-            - ${directory} -
-            ${"-".repeat(directory.length + 4)}
-        `);
+        console.log(
+            chalk.redBright(`
+        ${"-".repeat(directory.length + 4)}
+        - ${directory} -
+        ${"-".repeat(directory.length + 4)}
+        `)
+        );
 
         await executeShellCommand(command, { cwd: directory });
 
-        chalk.yellow(`
-            ${"-".repeat(32)}
-            
-        `);
+        console.log(
+            chalk.yellow(`
+        ${"-".repeat(32)}    
+        `)
+        );
     }
 })();
