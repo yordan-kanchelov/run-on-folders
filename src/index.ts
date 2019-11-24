@@ -1,22 +1,29 @@
-import chalk from "chalk";
 import executeShellCommand from "./utils/executeShellCommand";
-import listDirectories from "./utils/listDirectories";
+import listDirectories from "./utils/list-directories";
 
-const command = process.argv.slice(2).join(" ");
+import CommandOptions from "./command-options";
+import promptUser from "./console-interface/promp-user";
 
-try {
-    process.chdir(__dirname);
-    console.log(`New directory: ${process.cwd()}`);
-} catch (err) {
-    console.error(`chdir: ${err}`);
-}
+let commandOptions: CommandOptions; //process.argv.slice(2).join(" ");
 
 (async () => {
-    const directories = listDirectories(__dirname);
+    try {
+        process.chdir(__dirname);
+    } catch (err) {
+        console.error(`chdir: ${err}`);
+    }
+
+    if (true) {
+        commandOptions = await promptUser();
+    } else {
+        // TODO
+    }
 
     await Promise.all(
-        directories.map(directory => {
-            return executeShellCommand(command, { cwd: directory });
+        commandOptions.selectedDirectories.map(directory => {
+            return executeShellCommand(commandOptions.command, {
+                cwd: directory,
+            });
         })
     );
 })();
