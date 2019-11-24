@@ -1,3 +1,9 @@
 {
-    "jira-plugin.workingProject": ""
+    "jira-plugin.workingProject": "",
+    "gitflow4code.features": [
+        {
+            "name": "feature/#1/console-interface",
+            "base": "develop"
+        }
+    ]
 }

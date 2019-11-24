@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import * as fs from "fs";
 import executeShellCommand from "./utils/executeShellCommand";
+import listDirectories from "./utils/listDirectories";
 
 const command = process.argv.slice(2).join(" ");
 
@@ -12,33 +12,11 @@ try {
 }
 
 (async () => {
-    process.chdir(__dirname);
-    const files = fs.readdirSync(__dirname);
-    const directories = files.filter(path => {
-        return fs.statSync(path).isDirectory();
-    });
+    const directories = listDirectories(__dirname);
 
-    for (
-        let directoryIndex = 0;
-        directoryIndex < directories.length;
-        directoryIndex++
-    ) {
-        const directory = directories[directoryIndex];
-
-        console.log(
-            chalk.redBright(`
-        ${"-".repeat(directory.length + 4)}
-        - ${directory} -
-        ${"-".repeat(directory.length + 4)}
-        `)
-        );
-
-        await executeShellCommand(command, { cwd: directory });
-
-        console.log(
-            chalk.yellow(`
-        ${"-".repeat(32)}    
-        `)
-        );
-    }
+    await Promise.all(
+        directories.map(directory => {
+            return executeShellCommand(command, { cwd: directory });
+        })
+    );
 })();

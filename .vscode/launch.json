@@ -7,7 +7,7 @@
             "name": "typescript node.js debug",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/src/index.ts",
-            "args": ["echo > test.txt working"],
+            "args": ["echo working"],
             "cwd": "${workspaceFolder}",
             "protocol": "inspector",
             "outFiles": ["${workspaceFolder}/dist/index.js"]
