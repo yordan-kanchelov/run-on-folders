@@ -7,10 +7,11 @@
             "name": "typescript node.js debug",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/src/index.ts",
-            "args": ["echo working"],
-            "cwd": "${workspaceFolder}",
+            "args": ["echo > working.txt working"],
+            "cwd": "${workspaceFolder}/dist",
             "protocol": "inspector",
-            "outFiles": ["${workspaceFolder}/dist/index.js"]
+            "outFiles": ["${workspaceFolder}/dist/index.js"],
+            "console": "integratedTerminal"
         }
     ]
 }
