@@ -1,10 +1,15 @@
 import executeShellCommand from "./utils/executeShellCommand";
-import listDirectories from "./utils/list-directories";
 
 import CommandOptions from "./command-options";
 import promptUser from "./console-interface/promp-user";
+import * as yargs from "yargs";
+import listDirectories from "./utils/list-directories";
 
 let commandOptions: CommandOptions; //process.argv.slice(2).join(" ");
+
+const args = yargs
+    .command("command", '"echo replace me with something else"')
+    .help().argv;
 
 (async () => {
     try {
@@ -13,10 +18,13 @@ let commandOptions: CommandOptions; //process.argv.slice(2).join(" ");
         console.error(`chdir: ${err}`);
     }
 
-    if (true) {
+    if (!args.command) {
         commandOptions = await promptUser();
     } else {
-        // TODO
+        commandOptions = new CommandOptions(
+            args.command as string,
+            listDirectories(process.cwd())
+        );
     }
 
     await Promise.all(
