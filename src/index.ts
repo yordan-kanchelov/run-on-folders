@@ -1,6 +1,6 @@
 import chalk from "chalk";
-import * as fs from "fs";
 import executeShellCommand from "./utils/executeShellCommand";
+import listDirectories from "./utils/listDirectories";
 
 const command = process.argv.slice(2).join(" ");
 
@@ -12,11 +12,7 @@ try {
 }
 
 (async () => {
-    process.chdir(__dirname);
-    const files = fs.readdirSync(__dirname);
-    const directories = files.filter(path => {
-        return fs.statSync(path).isDirectory();
-    });
+    const directories = listDirectories(__dirname);
 
     for (
         let directoryIndex = 0;
