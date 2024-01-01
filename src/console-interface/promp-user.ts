@@ -14,10 +14,17 @@ export default async function(): Promise<CommandOptions> {
             name: "selectedDirectories",
             message: "Select desired directories",
             choices: listDirectories(process.cwd()).map(value => {
+                const ignoreByDefault = [
+                    "node_modules",
+                    ".git",
+                    ".vscode",
+                    ".github",
+                ];
+
                 return {
                     title: value,
                     value,
-                    selected: true,
+                    selected: ignoreByDefault.includes(value) ? false : true,
                 };
             }),
         },

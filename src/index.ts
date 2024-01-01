@@ -7,18 +7,39 @@ import promptUser from "./console-interface/promp-user";
 import * as yargs from "yargs";
 import listDirectories from "./utils/list-directories";
 
-let commandOptions: CommandOptions;
 const args = yargs
-    .command("command", '"echo replace me with something else"')
+    .command(
+        "run",
+        "Executes the specified command in selected directories",
+        yargs => {
+            return yargs.option("cmd", {
+                describe: "The command to execute",
+                type: "string",
+                demandOption: true, // makes the command argument required
+                alias: "c",
+            });
+        }
+    )
     .help().argv;
 
 (async () => {
-    if (!args.command) {
+    let commandOptions: CommandOptions;
+    console.log(args);
+    if (!args.c) {
         commandOptions = await promptUser();
     } else {
         commandOptions = new CommandOptions(
             args.command as string,
-            listDirectories(process.cwd())
+            listDirectories(process.cwd()).filter(value => {
+                const ignoreByDefault = [
+                    "node_modules",
+                    ".git",
+                    ".vscode",
+                    ".github",
+                ];
+
+                return ignoreByDefault.includes(value) ? false : true;
+            })
         );
     }
 

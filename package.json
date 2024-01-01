@@ -16,9 +16,7 @@
         "type": "git",
         "url": "git+https://github.com/jkanchelov/run-on-folders.git"
     },
-    "bin": {
-        "run-on-folders": "./dist/index.js"
-    },
+    "bin": "./dist/index.js",
     "keywords": [
         "cli",
         "command",
