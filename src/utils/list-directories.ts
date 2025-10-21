@@ -1,9 +1,10 @@
 import * as fs from "fs";
+import * as path from "path";
 
-export default function(path: string): string[] {
-    const files = fs.readdirSync(path);
-    const directories = files.filter(path => {
-        return fs.statSync(path).isDirectory();
+export default function (dirPath: string): string[] {
+    const files = fs.readdirSync(dirPath);
+    const directories = files.filter((file) => {
+        return fs.statSync(path.join(dirPath, file)).isDirectory();
     });
 
     return directories;

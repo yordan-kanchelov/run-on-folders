@@ -1,36 +1,38 @@
 #!/usr/bin/env node
 
-import executeShellCommand from "./utils/executeShellCommand";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 
 import CommandOptions from "./command-options";
 import promptUser from "./console-interface/promp-user";
-import * as yargs from "yargs";
+import executeShellCommand from "./utils/executeShellCommand";
 import listDirectories from "./utils/list-directories";
 
-const args = yargs
+const args = yargs(hideBin(process.argv))
     .command(
         "run",
         "Executes the specified command in selected directories",
-        yargs => {
+        (yargs) => {
             return yargs.option("cmd", {
                 describe: "The command to execute",
                 type: "string",
-                demandOption: true, // makes the command argument required
+                demandOption: true,
                 alias: "c",
             });
         }
     )
     .help().argv;
 
-(async () => {
+(async (): Promise<void> => {
     let commandOptions: CommandOptions;
-    console.log(args);
-    if (!args.c) {
+    const resolvedArgs = await args;
+    console.log(resolvedArgs);
+    if (!resolvedArgs.cmd) {
         commandOptions = await promptUser();
     } else {
         commandOptions = new CommandOptions(
-            args.command as string,
-            listDirectories(process.cwd()).filter(value => {
+            resolvedArgs.cmd as string,
+            listDirectories(process.cwd()).filter((value) => {
                 const ignoreByDefault = [
                     "node_modules",
                     ".git",
@@ -44,7 +46,7 @@ const args = yargs
     }
 
     await Promise.all(
-        commandOptions.selectedDirectories.map(directory => {
+        commandOptions.selectedDirectories.map((directory) => {
             return executeShellCommand(commandOptions.command, {
                 cwd: directory,
             });

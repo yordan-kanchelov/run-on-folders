@@ -1,8 +1,9 @@
-import * as prompts from "prompts";
+import prompts from "prompts";
+
 import CommandOptions from "../command-options";
 import listDirectories from "../utils/list-directories";
 
-export default async function(): Promise<CommandOptions> {
+export default async function (): Promise<CommandOptions> {
     const questions: prompts.PromptObject[] = [
         {
             type: "text",
@@ -13,7 +14,7 @@ export default async function(): Promise<CommandOptions> {
             type: "multiselect",
             name: "selectedDirectories",
             message: "Select desired directories",
-            choices: listDirectories(process.cwd()).map(value => {
+            choices: listDirectories(process.cwd()).map((value) => {
                 const ignoreByDefault = [
                     "node_modules",
                     ".git",
