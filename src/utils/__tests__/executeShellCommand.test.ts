@@ -1,5 +1,7 @@
-import { describe, expect, it, jest, beforeEach } from "@jest/globals";
 import { exec } from "child_process";
+
+import { beforeEach, describe, expect, it, jest } from "@jest/globals";
+
 import executeShellCommand from "../executeShellCommand";
 
 jest.mock("child_process");
@@ -18,7 +20,11 @@ describe("executeShellCommand", () => {
         mockedExec.mockImplementation(((
             _command: string,
             _options: unknown,
-            callback: (error: Error | null, stdout: string, stderr: string) => void
+            callback: (
+                error: Error | null,
+                stdout: string,
+                stderr: string
+            ) => void
         ) => {
             callback(null, mockStdout, "");
             return {} as any;
@@ -38,7 +44,11 @@ describe("executeShellCommand", () => {
         mockedExec.mockImplementation(((
             _command: string,
             _options: unknown,
-            callback: (error: Error | null, stdout: string, stderr: string) => void
+            callback: (
+                error: Error | null,
+                stdout: string,
+                stderr: string
+            ) => void
         ) => {
             callback(null, "", mockStderr);
             return {} as any;
@@ -57,7 +67,11 @@ describe("executeShellCommand", () => {
         mockedExec.mockImplementation(((
             _command: string,
             _options: unknown,
-            callback: (error: Error | null, stdout: string, stderr: string) => void
+            callback: (
+                error: Error | null,
+                stdout: string,
+                stderr: string
+            ) => void
         ) => {
             callback(null, "", "");
             return {} as any;
@@ -77,7 +91,11 @@ describe("executeShellCommand", () => {
         mockedExec.mockImplementation(((
             _command: string,
             _options: unknown,
-            callback: (error: Error | null, stdout: string, stderr: string) => void
+            callback: (
+                error: Error | null,
+                stdout: string,
+                stderr: string
+            ) => void
         ) => {
             callback(mockError, "", "");
             return {} as any;
@@ -96,7 +114,11 @@ describe("executeShellCommand", () => {
         mockedExec.mockImplementation(((
             _command: string,
             _options: unknown,
-            callback: (error: Error | null, stdout: string, stderr: string) => void
+            callback: (
+                error: Error | null,
+                stdout: string,
+                stderr: string
+            ) => void
         ) => {
             callback(null, "output", "");
             return {} as any;
@@ -124,7 +146,11 @@ describe("executeShellCommand", () => {
         mockedExec.mockImplementation(((
             _command: string,
             _options: unknown,
-            callback: (error: Error | null, stdout: string, stderr: string) => void
+            callback: (
+                error: Error | null,
+                stdout: string,
+                stderr: string
+            ) => void
         ) => {
             callback(null, mockStdout, mockStderr);
             return {} as any;

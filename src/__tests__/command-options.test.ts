@@ -1,4 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
+
 import CommandOptions from "../command-options";
 
 describe("CommandOptions", () => {
@@ -48,7 +49,11 @@ describe("CommandOptions", () => {
 
         const options = new CommandOptions(command, directories);
 
-        expect(options.selectedDirectories).toEqual(["z-dir", "a-dir", "m-dir"]);
+        expect(options.selectedDirectories).toEqual([
+            "z-dir",
+            "a-dir",
+            "m-dir",
+        ]);
     });
 
     it("should handle directories with special characters", () => {

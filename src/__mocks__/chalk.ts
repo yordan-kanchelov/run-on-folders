@@ -1,5 +1,5 @@
 const chalk = {
-    red: (text: string) => text,
+    red: (text: string): string => text,
 };
 
 export default chalk;

@@ -1,7 +1,8 @@
-import { describe, expect, it, jest, beforeEach } from "@jest/globals";
+import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import prompts from "prompts";
-import promptUser from "../promp-user";
+
 import listDirectories from "../../utils/list-directories";
+import promptUser from "../promp-user";
 
 jest.mock("prompts");
 jest.mock("../../utils/list-directories");
@@ -18,11 +19,7 @@ describe("promptUser", () => {
     });
 
     it("should return CommandOptions with user input", async () => {
-        mockedListDirectories.mockReturnValue([
-            "dir1",
-            "dir2",
-            "node_modules",
-        ]);
+        mockedListDirectories.mockReturnValue(["dir1", "dir2", "node_modules"]);
         mockedPrompts.mockResolvedValue({
             command: "npm install",
             selectedDirectories: ["dir1", "dir2"],
@@ -139,11 +136,7 @@ describe("promptUser", () => {
     });
 
     it("should handle user selecting all directories including ignored ones", async () => {
-        mockedListDirectories.mockReturnValue([
-            "src",
-            "node_modules",
-            ".git",
-        ]);
+        mockedListDirectories.mockReturnValue(["src", "node_modules", ".git"]);
         mockedPrompts.mockResolvedValue({
             command: "ls",
             selectedDirectories: ["src", "node_modules", ".git"],

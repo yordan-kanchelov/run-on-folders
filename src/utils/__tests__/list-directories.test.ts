@@ -1,14 +1,18 @@
-import { describe, expect, it, beforeEach, afterEach } from "@jest/globals";
 import * as fs from "fs";
-import * as path from "path";
 import * as os from "os";
+import * as path from "path";
+
+import { afterEach, beforeEach, describe, expect, it } from "@jest/globals";
+
 import listDirectories from "../list-directories";
 
 describe("listDirectories", () => {
     let tempDir: string;
 
     beforeEach(() => {
-        tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "list-directories-test-"));
+        tempDir = fs.mkdtempSync(
+            path.join(os.tmpdir(), "list-directories-test-")
+        );
     });
 
     afterEach(() => {
