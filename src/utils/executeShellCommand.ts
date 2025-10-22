@@ -1,7 +1,10 @@
-import chalk from "chalk";
-import { exec, ExecOptions } from "child_process";
+import { exec } from "child_process";
 import * as util from "util";
-import * as log from "fancy-log";
+
+import chalk from "chalk";
+import log from "fancy-log";
+
+import type { ExecOptions } from "child_process";
 
 const execPromise = util.promisify(exec);
 

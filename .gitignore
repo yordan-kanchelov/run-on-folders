@@ -38,6 +38,10 @@ build/Release
 node_modules/
 jspm_packages/
 
+# pnpm
+.pnpm-store/
+.pnpm-debug.log
+
 # TypeScript v1 declaration files
 typings/
 
@@ -61,3 +65,9 @@ typings/
 
 # next.js build output
 .next
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Additional build artifacts
+build/
